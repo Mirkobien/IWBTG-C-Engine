@@ -33,3 +33,9 @@
 
 # Save games
 *.sav
+
+# Build directories
+build/*
+.vscode/*
+IWBTG-C-Engine.nacp
+IWBTG-C-Engine.nro

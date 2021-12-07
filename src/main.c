@@ -813,12 +813,21 @@ void iwbtgDraw(Iwbtg* iw)
     renderEnd(g);
 }
 
+bool mainLoopCondition(Iwbtg* iwbtg){
+    #ifdef __SWITCH__
+        return appletMainLoop();
+    #else
+        return iwbtg->game.running;
+    #endif
+}
+
 #undef main
 int main(int argc, char** argv)
 {
-    socketInitializeDefault();              // Initialize sockets
-    nxlinkStdio();                          // Redirect stdout and stderr over the network to nxlink
-
+    #ifdef __SWITCH__
+        socketInitializeDefault();              // Initialize sockets
+        nxlinkStdio();                          // Redirect stdout and stderr over the network to nxlink
+    #endif
     Iwbtg* iwbtg = new(Iwbtg);
     Game* game = &iwbtg->game;
     
@@ -831,7 +840,7 @@ int main(int argc, char** argv)
     
     //loadMap(iwbtg, "assets/1.map");
     
-    while(appletMainLoop())
+    while(mainLoopCondition(iwbtg))
     {
         double frameTime = (double)1000.0 / 50.0;
         int updateTime = SDL_GetTicks();
@@ -849,6 +858,7 @@ int main(int argc, char** argv)
 	    game->lastUpdateTime = updateTime;
     }
 
-
-    socketExit();
+    #ifdef __SWITCH__
+        socketExit();
+    #endif
 }

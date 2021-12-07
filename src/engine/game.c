@@ -122,7 +122,7 @@ bool gameInit(Game* g, char* title, int width, int height, float scale)
         printf("WidthxHeight: %ix%i\n", width, height);
         Vector2f scaleScreen = {(float)width/1280, (float)height/720};
     #else
-        Vector2i scaleScreen = {scale, scale};
+        Vector2f scaleScreen = {scale, scale};
     #endif
     Vector2i size = { width, height };
     g->size = size;
