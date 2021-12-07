@@ -816,6 +816,9 @@ void iwbtgDraw(Iwbtg* iw)
 #undef main
 int main(int argc, char** argv)
 {
+    socketInitializeDefault();              // Initialize sockets
+    nxlinkStdio();                          // Redirect stdout and stderr over the network to nxlink
+
     Iwbtg* iwbtg = new(Iwbtg);
     Game* game = &iwbtg->game;
     
@@ -828,7 +831,7 @@ int main(int argc, char** argv)
     
     //loadMap(iwbtg, "assets/1.map");
     
-    while(iwbtg->game.running)
+    while(appletMainLoop())
     {
         double frameTime = (double)1000.0 / 50.0;
         int updateTime = SDL_GetTicks();
@@ -845,4 +848,7 @@ int main(int argc, char** argv)
         memoryPoolClear(&game->frameMemory);
 	    game->lastUpdateTime = updateTime;
     }
+
+
+    socketExit();
 }

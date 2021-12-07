@@ -118,9 +118,15 @@
 
 bool gameInit(Game* g, char* title, int width, int height, float scale)
 {
+    #ifdef __SWITCH__
+        printf("WidthxHeight: %ix%i\n", width, height);
+        Vector2f scaleScreen = {(float)width/1280, (float)height/720};
+    #else
+        Vector2i scaleScreen = {scale, scale};
+    #endif
     Vector2i size = { width, height };
     g->size = size;
-    g->scale = scale;
+    g->scale = scaleScreen;
     g->windowSize.x = size.x * scale;
     g->windowSize.y = size.y * scale;
     
@@ -130,11 +136,14 @@ bool gameInit(Game* g, char* title, int width, int height, float scale)
     memoryPoolInit(&g->levelMemory, KB(16));
     memoryPoolInit(&g->frameMemory, KB(16));
     
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) != 0)
     {
         printf("SDL_Init Error: %s\n", SDL_GetError());
         return false;
     }
+    
+    SDL_JoystickEventState(SDL_ENABLE);
+    SDL_JoystickOpen(0);
     
     #ifdef OPENGL
     
@@ -187,7 +196,7 @@ bool gameInit(Game* g, char* title, int width, int height, float scale)
         SDL_CreateWindow(title, 
                          SDL_WINDOWPOS_CENTERED,
                          SDL_WINDOWPOS_CENTERED,
-                         width * scale, height * scale, 
+                         width * scaleScreen.x, height * scaleScreen.y, 
                          SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
                              
         if (!g->window)
@@ -209,7 +218,7 @@ bool gameInit(Game* g, char* title, int width, int height, float scale)
             return 1;
         }
         
-        SDL_RenderSetScale(g->renderer, scale, scale);
+        SDL_RenderSetScale(g->renderer, scaleScreen.x, scaleScreen.y);
     
     #endif
     
@@ -223,7 +232,7 @@ bool gameInit(Game* g, char* title, int width, int height, float scale)
     
     g->running = true;
     
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0"); // Nearest Neighbor
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"); // Nearest Neighbor
     
     srand(time(0));
     
@@ -280,6 +289,7 @@ void gameHandleEvents(Game* g)
                         wh = e.window.data2;
                     g->windowSize.x = ww;
                     g->windowSize.y = wh;
+                    printf("Scale changed!\n");
                     
                     #ifdef OPENGL
                     
@@ -312,6 +322,17 @@ void gameHandleEvents(Game* g)
                 
             case SDL_TEXTINPUT:
                 strcat(g->input.text, e.text.text);
+                break;
+            
+            case SDL_JOYBUTTONDOWN:
+                g->input.keys[(e.jbutton.button + 1) & 255] = true;
+                g->input.keysPressed[(e.jbutton.button + 1) & 255] = true;
+                printf("Joystick Button pressed: %i\nInput.keys[%x] = true\n\n", e.jbutton.button, e.jbutton.button & 255);
+                break;
+            
+            case SDL_JOYBUTTONUP:
+                g->input.keys[(e.jbutton.button + 1) & 255] = false;
+                g->input.keysReleased[(e.jbutton.button + 1) & 255] = true;
                 break;
         }
     }

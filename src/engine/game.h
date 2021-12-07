@@ -40,7 +40,7 @@ typedef struct Game
     SDL_GLContext* glContext;
     
     Vector2i size, windowSize;
-    float scale;
+    Vector2f scale;
     bool running, fullScreen;
     int lastUpdateTime;
     double frameTimer;

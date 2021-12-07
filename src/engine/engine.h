@@ -26,9 +26,13 @@
 #include <SDL2/SDL_mixer.h>
 
 #ifdef OPENGL
-    #include <gl/glew.h>
+    #include <GL/glew.h>
     #include <SDL2/SDL_opengl.h>
-    #include <gl/glu.h>
+    #include <GL/glu.h>
+#endif
+
+#ifdef __SWITCH__
+    #include <switch.h>
 #endif
 
 #include "memoryPool.h"
