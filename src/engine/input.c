@@ -6,7 +6,7 @@ void initKeyBindings(KeyBindings* k)
         k->bindings[KEY_RIGHT] = 14 + 1;
         k->bindings[KEY_UP] = 13 + 1;
         k->bindings[KEY_DOWN] = 15 + 1;
-        //k->bindings[KEY_CONFIRM] = 0 + 1;
+        k->bindings[KEY_CONFIRM] = 0 + 1;
         k->bindings[KEY_CANCEL] = 11 + 1;
         //k->bindings[KEY_MENU] = 10 + 1;
         //k->bindings[KEY_LOAD_LEVEL] = SDLK_l + 1;
@@ -16,7 +16,7 @@ void initKeyBindings(KeyBindings* k)
         k->bindings[KEY_TILE_PICKER] = 9 + 1;
         k->bindings[KEY_RESTART] = 3 + 1;
         //k->bindings[KEY_FULLSCREEN_TOGGLE] = SDLK_F4 + 1;
-        k->bindings[KEY_EDITOR_TOGGLE] = 10 + 1;
+        k->bindings[KEY_EDITOR_TOGGLE] = 8 + 1;
         k->bindings[KEY_SHOOT] = 2 + 1;
     #else
         k->bindings[KEY_LEFT] = SDLK_LEFT;

@@ -46,6 +46,8 @@
 #define MAP_WIDTH 30
 #define MAP_HEIGHT 17
 #define GRID_SIZE 32
+#define GAME_WIDTH 960
+#define GAME_HEIGHT 540
 
 #include <ctype.h>
 
@@ -831,7 +833,7 @@ int main(int argc, char** argv)
     Iwbtg* iwbtg = new(Iwbtg);
     Game* game = &iwbtg->game;
     
-    gameInit(game, "iwbtg", 960, 540, 1);
+    gameInit(game, "iwbtg", GAME_WIDTH, GAME_HEIGHT, 1);
     
     iwbtgLoad(iwbtg);
     iwbtgInit(iwbtg);
