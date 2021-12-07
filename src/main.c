@@ -50,22 +50,22 @@
 #include <ctype.h>
 
 #include "engine/engine.h"
-#include "controller.h"
-#include "entity.h"
-#include "defaultMap.h"
-#include "menu.h"
-#include "editor.h"
-#include "player.h"
+#include "game/controller.h"
+#include "game/entity.h"
+#include "game/defaultMap.h"
+#include "game/menu.h"
+#include "game/editor.h"
+#include "game/player.h"
 #include "main.h"
-#include "collision.h"
+#include "game/collision.h"
 
-#include "script.c"
-#include "menu.c"
-#include "editor.c"
-#include "controller.c"
-#include "player.c"
-#include "entity.c"
-#include "lighting.c"
+#include "game/script.c"
+#include "game/menu.c"
+#include "game/editor.c"
+#include "game/controller.c"
+#include "game/player.c"
+#include "game/entity.c"
+#include "game/lighting.c"
 
 Script* levelGetScriptAtPosition(Level* l, int x, int y)
 {
