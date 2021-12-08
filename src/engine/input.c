@@ -7,8 +7,8 @@ void initKeyBindings(KeyBindings* k)
         k->bindings[KEY_UP] = 13 + 1;
         k->bindings[KEY_DOWN] = 15 + 1;
         k->bindings[KEY_CONFIRM] = 0 + 1;
-        k->bindings[KEY_CANCEL] = 11 + 1;
-        //k->bindings[KEY_MENU] = 10 + 1;
+        k->bindings[KEY_CANCEL] = 1 + 1;
+        k->bindings[KEY_MENU] = 10 + 1;
         //k->bindings[KEY_LOAD_LEVEL] = SDLK_l + 1;
         //k->bindings[KEY_SAVE_LEVEL] = SDLK_s + 1;
         //k->bindings[KEY_CONSOLE] = SDLK_TAB + 1;

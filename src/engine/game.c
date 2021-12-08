@@ -336,14 +336,23 @@ void gameHandleEvents(Game* g)
                 break;
             
             case SDL_FINGERDOWN:
-                g->input.mouseButtons[SDL_BUTTON_LEFT] = true;
-                g->input.mouseButtonsPressed[SDL_BUTTON_LEFT] = true;
+                if (checkKey(g, KEY_CANCEL)){
+                    g->input.mouseButtons[SDL_BUTTON_RIGHT] = true;
+                    g->input.mouseButtonsPressed[SDL_BUTTON_RIGHT] = true;
+                } else {
+                    g->input.mouseButtons[SDL_BUTTON_LEFT] = true;
+                    g->input.mouseButtonsPressed[SDL_BUTTON_LEFT] = true;
+                }
                 setMousePosition(g, e.tfinger.x * GAME_WIDTH, e.tfinger.y * GAME_HEIGHT);
                 break;
 
             case SDL_FINGERUP:
+                if(g->input.mouseButtons[SDL_BUTTON_LEFT])
+                    g->input.mouseButtonsReleased[SDL_BUTTON_LEFT] = true;
                 g->input.mouseButtons[SDL_BUTTON_LEFT] = false;
-                g->input.mouseButtonsReleased[SDL_BUTTON_LEFT] = true;
+                if(g->input.mouseButtons[SDL_BUTTON_RIGHT])
+                    g->input.mouseButtonsReleased[SDL_BUTTON_RIGHT] = true;
+                g->input.mouseButtons[SDL_BUTTON_RIGHT] = false;
                 setMousePosition(g, e.tfinger.x * GAME_WIDTH, e.tfinger.y * GAME_HEIGHT);
                 break;
         }

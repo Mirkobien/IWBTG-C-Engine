@@ -37,11 +37,15 @@ void editorUpdate(Iwbtg* iw)
             Grid* grid = &iw->level.entities;
             if(e->mode == EditorMode_controllers)
                 grid = &iw->level.controllers;
+
+            if(checkKeyPressed(g, KEY_TILE_PICKER))
+                e->picking = !e->picking;
                 
             if(checkMouseButton(g, SDL_BUTTON_LEFT))
             {
                 
-                if(checkKey(g, KEY_TILE_PICKER))
+                //if(checkKey(g, KEY_TILE_PICKER))
+                if(e->picking)
                     iw->editor.selectedObject = mx + (my * (e->objectsTexture->size.x / 32)) + 1;
                 else
                     gridSet(grid, mx, my, e->selectedObject);
@@ -82,7 +86,7 @@ void editorUpdate(Iwbtg* iw)
             textInputEditString(&iw->textInput, &iw->level.propertiesScript[0], MAX_LEVEL_PROPERTIES_SCRIPT_LENGTH);
     }
     
-    if(checkKeyPressed(g, KEY_EDITOR_TOGGLE) || checkKeyPressed(g, KEY_MENU))
+    if((checkKeyPressed(g, KEY_EDITOR_TOGGLE) || checkKeyPressed(g, KEY_MENU)) && iw->state != GameState_gameOver)
     {
         if(checkKeyPressed(g, KEY_EDITOR_TOGGLE))
             iw->editor.enabled = !iw->editor.enabled;
@@ -131,7 +135,7 @@ void editorDraw(Iwbtg* iw)
             selectedSprite->frame = e->selectedObject-1;
             spriteDraw(g, selectedSprite, 16, 16);
             
-            if(checkKey(g, KEY_TILE_PICKER))
+            if(e->picking)
             {
                 if(e->mode == EditorMode_entities)
                     textureDraw(g, e->objectsTexture, 0, 0);

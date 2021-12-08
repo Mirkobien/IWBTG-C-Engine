@@ -817,7 +817,7 @@ void iwbtgDraw(Iwbtg* iw)
 
 bool mainLoopCondition(Iwbtg* iwbtg){
     #ifdef __SWITCH__
-        return appletMainLoop();
+        return appletMainLoop() && iwbtg->game.running;
     #else
         return iwbtg->game.running;
     #endif
@@ -861,6 +861,8 @@ int main(int argc, char** argv)
     }
 
     #ifdef __SWITCH__
+        SDL_Quit();
         socketExit();
+        return 0;
     #endif
 }
