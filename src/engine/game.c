@@ -327,7 +327,6 @@ void gameHandleEvents(Game* g)
             case SDL_JOYBUTTONDOWN:
                 g->input.keys[(e.jbutton.button + 1) & 255] = true;
                 g->input.keysPressed[(e.jbutton.button + 1) & 255] = true;
-                printf("Joystick Button pressed: %i\nInput.keys[%x] = true\n\n", e.jbutton.button, e.jbutton.button & 255);
                 break;
             
             case SDL_JOYBUTTONUP:

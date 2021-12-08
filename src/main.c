@@ -152,8 +152,10 @@ void textInputUpdate(TextInput* ti, Iwbtg* iw)
     
     if(ti->active)
     {
+        if(checkKeyPressed(g, KEY_JUMP))
+            SDL_StartTextInput();
+
         // Force upper case on all input
-        
         char* text = ti->text;
         
         int inputLength = strlen(g->input.text);
@@ -196,8 +198,11 @@ void textInputUpdate(TextInput* ti, Iwbtg* iw)
            
 
         ti->cursorPosition = min(max(ti->cursorPosition, 0), strlen(text));
-        
+        #ifdef __SWITCH__
+        if(checkKeyPressed(g, KEY_SHOOT))
+        #else
         if(g->input.keysPressed[SDLK_BACKSPACE & 255])
+        #endif
         {
             int length = strlen(text);
             if(length > 0)
@@ -231,7 +236,11 @@ void textInputUpdate(TextInput* ti, Iwbtg* iw)
             }
         }
         
+        #ifdef __SWITCH__
+        if(checkKeyPressed(g, KEY_CANCEL))
+        #else
         if(g->input.keysPressed[SDLK_ESCAPE & 255])
+        #endif
             ti->active = false;
         
         // Stop any input being interpreted by the game
