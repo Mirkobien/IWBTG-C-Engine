@@ -10,6 +10,7 @@ typedef struct
 {
     bool enabled;
     int mode;
+    bool picking;
     int selectedObject;
     Grid* editLayer;
     Sprite objectSprite, controllerSprite;

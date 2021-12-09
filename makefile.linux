@@ -1,0 +1,2 @@
+ibtgw:
+	gcc -std=c99 -g src/main.c -Wall -o build/iwbtg -lm -lSDL2 -lSDL2_image -lSDL2_mixer -fmax-errors=5
