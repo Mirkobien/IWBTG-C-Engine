@@ -12,6 +12,7 @@ typedef struct
     int mode;
     bool picking;
     int selectedObject;
+    Vector2i cursor;
     Grid* editLayer;
     Sprite objectSprite, controllerSprite;
     Texture* objectsTexture;

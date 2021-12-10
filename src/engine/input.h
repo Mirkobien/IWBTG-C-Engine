@@ -34,6 +34,7 @@ typedef enum
     KEY_TILE_PICKER,
     KEY_FULLSCREEN_TOGGLE,
     KEY_EDITOR_TOGGLE,
+    KEY_EDITOR_T_TOGGLE,
     KEY_RESTART,
     KEY_SHOOT
 } KeyBinding;

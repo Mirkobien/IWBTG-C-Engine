@@ -8,6 +8,7 @@ void initKeyBindings(KeyBindings* k)
         k->bindings[KEY_DOWN] = 15 + 1;
         k->bindings[KEY_CONFIRM] = 0 + 1;
         k->bindings[KEY_CANCEL] = 1 + 1;
+        //TODO: editor keys
         k->bindings[KEY_MENU] = 10 + 1;
         //k->bindings[KEY_LOAD_LEVEL] = SDLK_l + 1;
         //k->bindings[KEY_SAVE_LEVEL] = SDLK_s + 1;
@@ -25,6 +26,8 @@ void initKeyBindings(KeyBindings* k)
         k->bindings[KEY_DOWN] = SDLK_DOWN;
         k->bindings[KEY_CONFIRM] = SDLK_RETURN;
         k->bindings[KEY_CANCEL] = SDLK_SPACE;
+        //editor keys
+        k->bindings[KEY_EDITOR_T_TOGGLE] = SDLK_SPACE;
         k->bindings[KEY_MENU] = SDLK_ESCAPE;
         k->bindings[KEY_LOAD_LEVEL] = SDLK_l;
         k->bindings[KEY_SAVE_LEVEL] = SDLK_s;

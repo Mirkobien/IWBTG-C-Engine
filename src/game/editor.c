@@ -18,6 +18,8 @@ void editorInit(Iwbtg* iw)
     
     iw->editor.selectedObject = 1;
     iw->state = GameState_menu;
+
+    e->cursor = (Vector2i){ 2, 2 };
     
     e->mode = EditorMode_entities;
 }
@@ -29,8 +31,10 @@ void editorUpdate(Iwbtg* iw)
     
     if(iw->editor.enabled)
     {
-        int mx = iw->game.input.mousePosition.x / 32;
-        int my = iw->game.input.mousePosition.y / 32;
+        //int mx = iw->game.input.mousePosition.x / 32;
+        //int my = iw->game.input.mousePosition.y / 32;
+        int mx = e->cursor.x;
+        int my = e->cursor.y;
         
         if(e->mode == EditorMode_entities || e->mode == EditorMode_controllers)
         {
@@ -40,8 +44,9 @@ void editorUpdate(Iwbtg* iw)
 
             if(checkKeyPressed(g, KEY_TILE_PICKER))
                 e->picking = !e->picking;
-                
-            if(checkMouseButton(g, SDL_BUTTON_LEFT))
+            
+            //if(checkMouseButton(g, SDL_BUTTON_LEFT))
+            if(checkKeyPressed(g, KEY_CONFIRM))
             {
                 
                 //if(checkKey(g, KEY_TILE_PICKER))
@@ -54,7 +59,8 @@ void editorUpdate(Iwbtg* iw)
                 gridSet(grid, mx, my, 0);
         }
         else if(e->mode == EditorMode_scripts)
-        {
+        {   
+            /*
             if(checkMouseButton(g, SDL_BUTTON_LEFT))
             {
                 Script* s = levelGetScriptAtPosition(&iw->level, mx, my);
@@ -65,22 +71,37 @@ void editorUpdate(Iwbtg* iw)
             }
             else if(checkMouseButton(g, SDL_BUTTON_RIGHT))
                 levelRemoveScript(&iw->level, mx, my);
-            
+            */
+            if(checkKeyPressed(g, KEY_CONFIRM))
+            {
+                Script* s = levelGetScriptAtPosition(&iw->level, e->cursor.x, e->cursor.y);
+                if(!s)
+                    s = levelAddScript(&iw->level, e->cursor.x, e->cursor.y);
+                
+                textInputEditString(&iw->textInput, &s->text[0], SCRIPT_MAX_LENGTH);
+            }
+            else if(checkMouseButton(g, SDL_BUTTON_RIGHT))
+                levelRemoveScript(&iw->level, mx, my);
         }
     
-        if(checkKeyPressed(&iw->game, KEY_LEFT))
+        if(checkKeyPressed(&iw->game, KEY_EDITOR_T_TOGGLE))
         {
             e->mode--;
             if(e->mode < 0)
                 e->mode = EditorMode_count-1;
         }
-        
+
         if(checkKeyPressed(&iw->game, KEY_RIGHT))
-        {
-            e->mode++;
-            if(e->mode > EditorMode_count-1)
-                e->mode = 0;
-        }
+            e->cursor.x += 1;
+
+        if(checkKeyPressed(&iw->game, KEY_LEFT))
+            e->cursor.x -= 1;
+        
+        if(checkKeyPressed(&iw->game, KEY_UP))
+            e->cursor.y -= 1;
+        
+        if(checkKeyPressed(&iw->game, KEY_DOWN))
+            e->cursor.y += 1;
         
         if(iw->game.input.keysPressed[SDLK_p & 255] && !iw->textInput.active)
             textInputEditString(&iw->textInput, &iw->level.propertiesScript[0], MAX_LEVEL_PROPERTIES_SCRIPT_LENGTH);
@@ -156,6 +177,9 @@ void editorDraw(Iwbtg* iw)
                                   32, 32, 1.0, 0.0, 1.0, 0.2);
             }
         }
+
+        textureDraw(g, assetsGetTexture(g, "editorCursor"), iw->editor.cursor.x * 32, iw->editor.cursor.y * 32);
+
         
         if(e->mode == EditorMode_entities)
             drawText(&iw->game, 0, "ENTITIES", 8, 540 - 32 - 8);

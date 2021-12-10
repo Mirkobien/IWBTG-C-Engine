@@ -604,6 +604,7 @@ void iwbtgLoad(Iwbtg* iw)
     assetsLoadTexture(g, "assets/jump_refresher.png", "jumpRefresher");
     assetsLoadTexture(g, "assets/vignette.png", "vignette");
     assetsLoadTexture(g, "assets/boss2.png", "boss2");
+    assetsLoadTexture(g, "assets/editorCursor.png", "editorCursor");
     
     assetsLoadSound(g, "assets/jump.wav", "jump");
     assetsLoadSound(g, "assets/double_jump.wav", "doubleJump");
